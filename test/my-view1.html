@@ -37,9 +37,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           home = fixture('basic');
         });
 
-        test('Number in circle should be 1', function() {
-          var circle = Polymer.dom(home.root).querySelector('.circle');
-          assert.equal(circle.textContent, '1');
+        test('Should find grid on the page', function() {
+          var grid = Polymer.dom(home.root).querySelector('vaadin-grid');
+          assert.equal(grid !== null, true);
         });
       });
     </script>
