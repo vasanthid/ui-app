@@ -12,6 +12,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
 <link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-column.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-sorter.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-filter.html">
 <link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view1">
@@ -34,36 +36,90 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       <template is="dom-bind">
           <!-- Fetch an array of users to be shown in the grid -->
-          <iron-ajax auto url="https://demo.vaadin.com/demo-data/1.0/people?count=200" handle-as="json" last-response="{{users}}"></iron-ajax>
+          <!--<iron-ajax auto url="https://demo.vaadin.com/demo-data/1.0/people?count=200" handle-as="json" last-response="{{users}}"></iron-ajax>-->
+
+          <iron-ajax auto url="../../test-data/testData.json" handle-as="json" last-response="{{tableData}}"></iron-ajax>
+
+          <!-- to enable multi sorting -->
+          <!--<paper-checkbox checked="{{multiSort}}">Enable Multi-Sorting</paper-checkbox>-->
 
           <!-- The array is set as the <vaadin-grid>'s "items" property -->
-          <vaadin-grid aria-label="Basic Binding Example" items="[[users.result]]">
+          <vaadin-grid aria-label="Basic Binding Example" items="[[tableData.elements]]" multi-sort="[[multiSort]]">
 
-              <vaadin-grid-column width="50px" flex-grow="0">
+              <vaadin-grid-column  flex-grow="0">
                   <template class="header">#</template>
                   <template>[[index]]</template>
-                  <!-- If necessary, the footer could be set using <template class="footer"> -->
-                  <template class="footer">#</template>
               </vaadin-grid-column>
 
-              <vaadin-grid-column>
-                  <template class="header">First Name</template>
-                  <template>[[item.firstName]]</template>
-                  <template class="footer">First Name</template>
-              </vaadin-grid-column>
-
-              <vaadin-grid-column>
-                  <template class="header">Last Name</template>
-                  <template>[[item.lastName]]</template>
-                  <template class="footer">Last Name</template>
-              </vaadin-grid-column>
-
-              <vaadin-grid-column width="150px">
-                  <template class="header">Address</template>
-                  <template>
-                      <p style="white-space: normal">[[item.address.street]], [[item.address.city]]</p>
+              <vaadin-grid-column flex-grow="1">
+                  <template class="header">
+                      <vaadin-grid-sorter path="btch_id">btch_id</vaadin-grid-sorter>
+                      <vaadin-grid-filter aria-label="btch_id" path="btch_id" value="[[_filterBtchId]]">
+                          <input placeholder="Batch Id" value="{{_filterBtchId::input}}" focus-target>
+                      </vaadin-grid-filter>
                   </template>
-                  <template class="footer">Address</template>
+                  <template>[[item.btch_id]]</template>
+              </vaadin-grid-column>
+
+
+              <vaadin-grid-column flex-grow="1">
+                  <template class="header">
+                      <vaadin-grid-sorter path="subj_area">subj_area</vaadin-grid-sorter>
+                      <vaadin-grid-filter aria-label="subj_area" path="subj_area" value="[[_filterSubjArea]]">
+                          <input placeholder="Subject Area" value="{{_filterSubjArea::input}}" focus-target>
+                      </vaadin-grid-filter>
+                  </template>
+                  <template>[[item.subj_area]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column flex-grow="1">
+                  <template class="header">
+                      <vaadin-grid-sorter path="src_db_tbl_n">src_db_tbl_n</vaadin-grid-sorter>
+                      <vaadin-grid-filter aria-label="src_db_tbl_n" path="src_db_tbl_n" value="[[_filterSrcDbTbl]]">
+                          <input placeholder="Source Table" value="{{_filterSrcDbTbl::input}}" focus-target>
+                      </vaadin-grid-filter>
+                  </template>
+                  <template>[[item.src_db_tbl_n]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column flex-grow="1">
+                  <template class="header">
+                      <vaadin-grid-sorter path="tgt_db_tbl_n">tgt_db_tbl_n</vaadin-grid-sorter>
+                      <vaadin-grid-filter aria-label="tgt_db_tbl_n" path="tgt_db_tbl_n" value="[[_filterTargetDbTbl]]">
+                          <input placeholder="Target Table" value="{{_filterTargetDbTbl::input}}" focus-target>
+                      </vaadin-grid-filter>
+                  </template>
+                  <template>[[item.tgt_db_tbl_n]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column flex-grow="1">
+                  <template class="header">
+                      <vaadin-grid-sorter path="master_job_n">master_job_n</vaadin-grid-sorter>
+                      <vaadin-grid-filter aria-label="master_job_n" path="master_job_n" value="[[_filterMasterJob]]">
+                          <input placeholder="Master Job" value="{{_filterMasterJob::input}}" focus-target>
+                      </vaadin-grid-filter>
+                  </template>
+                  <template>[[item.master_job_n]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column flex-grow="1">
+                  <template class="header">
+                      <vaadin-grid-sorter path="bdsync_dt">bdsync_dt</vaadin-grid-sorter>
+                      <vaadin-grid-filter aria-label="bdsync_dt" path="bdsync_dt" value="[[_filterBDSyncDate]]">
+                          <input placeholder="BD Sync Date" value="{{_filterBDSyncDate::input}}" focus-target>
+                      </vaadin-grid-filter>
+                  </template>
+                  <template>[[item.bdsync_dt]]</template>
+              </vaadin-grid-column>
+
+              <vaadin-grid-column flex-grow="1">
+                  <template class="header">
+                      <vaadin-grid-sorter path="run_stat">run_stat</vaadin-grid-sorter>
+                      <vaadin-grid-filter aria-label="run_stat" path="run_stat" value="[[_filterRunStat]]">
+                          <input placeholder="Run Status" value="{{_filterRunStat::input}}" focus-target>
+                      </vaadin-grid-filter>
+                  </template>
+                  <template>[[item.run_stat]]</template>
               </vaadin-grid-column>
 
           </vaadin-grid>
@@ -74,7 +130,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <script>
     Polymer({
-      is: 'my-view1',
+      is: 'my-view1'
     });
   </script>
 </dom-module>

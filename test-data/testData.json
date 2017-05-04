@@ -1,52 +1,119 @@
-[
-    {
-        "album": "The White Stripes",
-        "year": 1999,
-        "US_peak_chart_post": "-"
-    },
-    {
-        "album": "De Stijl",
-        "year": 2000,
-        "US_peak_chart_post": "-"
-    },
-    {
-        "album": "White Blood Cells",
-        "year": 2001,
-        "US_peak_chart_post": 61
-    },
-    {
-        "album": "Elephant",
-        "year": 2003,
-        "US_peak_chart_post": 6
-    },
-    {
-        "album": "Get Behind Me Satan",
-        "year": 2005,
-        "US_peak_chart_post": 3
-    },
-    {
-        "album": "Icky Thump",
-        "year": 2007,
-        "US_peak_chart_post": 2
-    },
-    {
-        "album": "Under Great White Northern Lights",
-        "year": 2010,
-        "US_peak_chart_post": 11
-    },
-    {
-        "album": "Live in Mississippi",
-        "year": 2011,
-        "US_peak_chart_post": "-"
-    },
-    {
-        "album": "Live at the Gold Dollar",
-        "year": 2012,
-        "US_peak_chart_post": "-"
-    },
-    {
-        "album": "Nine Miles from the White City",
-        "year": 2013,
-        "US_peak_chart_post": "-"
-    }
-]
+{
+    "name": "bdsync_exec_hist",
+    "elements": [
+        {
+            "btch_id": 3,
+            "subj_area": "CUSTOMER",
+            "src_db_tbl_n": "DB_CUSTBASE.ODS_BRAND_T",
+            "tgt_db_tbl_n": "DB_CUSTBASE_PRODREFRESH.ODS_BRAND_T",
+            "master_job_n": "E2E-DEV_Refresh",
+            "bdsync_dt": "2017-05-01",
+            "run_stat": "SUCCESS",
+            "validation_stat": "IN SYNC",
+            "strt_tmsp": "2017-05-01 17:58:20",
+            "end_tmsp": "2017-05-01 17:59:01",
+            "tgt_tbl_path": "hdfs://sfdmgct/bde2e/cust/custbase/Customer/MDS/ODS_BRAND_T/1476851710",
+            "src_fl_sz": 1228,
+            "tgt_fl_sz": 1228,
+            "fl_sz_vrnc_pct": 1,
+            "bytes_copied": 0,
+            "elapsed_time_in_mins": "0"
+        },
+        {
+            "btch_id": 4,
+            "subj_area": "CUSTOMER",
+            "src_db_tbl_n": "DB_CUSTBASE.ODS_BRAND_T",
+            "tgt_db_tbl_n": "DB_CUSTBASE_PRODREFRESH.ODS_BRAND_T",
+            "master_job_n": "E2E-DEV_Refresh",
+            "bdsync_dt": "2017-05-01",
+            "run_stat": "SUCCESS",
+            "validation_stat": "IN SYNC",
+            "strt_tmsp": "2017-05-01 18:07:26",
+            "end_tmsp": "2017-05-01 18:08:07",
+            "tgt_tbl_path": "hdfs://sfdmgct/bde2e/cust/custbase/Customer/MDS/ODS_BRAND_T/1476851710",
+            "src_fl_sz": 1228,
+            "tgt_fl_sz": 1228,
+            "fl_sz_vrnc_pct": 0,
+            "bytes_copied": 0,
+            "elapsed_time_in_mins": "0"
+        },
+        {
+            "btch_id": 5,
+            "subj_area": "CUSTOMER",
+            "src_db_tbl_n": "DB_CUSTBASE.ODS_BRAND_T",
+            "tgt_db_tbl_n": "DB_CUSTBASE_PRODREFRESH.ODS_BRAND_T",
+            "master_job_n": "E2E-DEV_Refresh",
+            "bdsync_dt": "2017-05-01",
+            "run_stat": "SUCCESS",
+            "validation_stat": "IN SYNC",
+            "strt_tmsp": "2017-05-01 18:09:55",
+            "end_tmsp": "2017-05-01 18:11:26",
+            "tgt_tbl_path": "hdfs://sfdmgct/bde2e/cust/custbase/Customer/MDS/ODS_BRAND_T/1476851710",
+            "src_fl_sz": 1228,
+            "tgt_fl_sz": 1228,
+            "fl_sz_vrnc_pct": 0,
+            "bytes_copied": 1895,
+            "elapsed_time_in_mins": "1"
+        },
+        {
+            "btch_id": 5,
+            "subj_area": "CUSTOMER",
+            "src_db_tbl_n": "DB_CUSTBASE.ODS_BRAND_EMAIL_T",
+            "tgt_db_tbl_n": "DB_CUSTBASE_PRODREFRESH.ODS_BRAND_T",
+            "master_job_n": "E2E-DEV_Refresh",
+            "bdsync_dt": "2017-05-03",
+            "run_stat": "SUCCESS",
+            "validation_stat": "IN SYNC",
+            "strt_tmsp": "2017-05-01 18:09:55",
+            "end_tmsp": "2017-05-01 18:11:26",
+            "tgt_tbl_path": "hdfs://sfdmgct/bde2e/cust/custbase/Customer/MDS/ODS_BRAND_T/1476851710",
+            "src_fl_sz": 1528,
+            "tgt_fl_sz": 1228,
+            "fl_sz_vrnc_pct": 0,
+            "bytes_copied": 895,
+            "elapsed_time_in_mins": "1"
+        },
+        {
+            "btch_id": 5,
+            "subj_area": "CUSTOMER",
+            "src_db_tbl_n": "DB_CUSTBASE.ODS_BRAND_EMAIL_T",
+            "tgt_db_tbl_n": "DB_CUSTBASE_PRODREFRESH.ODS_BRAND_T",
+            "master_job_n": "E2E-DEV_Refresh",
+            "bdsync_dt": "2017-05-06",
+            "run_stat": "SUCCESS",
+            "validation_stat": "IN SYNC",
+            "strt_tmsp": "2017-05-01 18:09:55",
+            "end_tmsp": "2017-05-01 18:11:26",
+            "tgt_tbl_path": "hdfs://sfdmgct/bde2e/cust/custbase/Customer/MDS/ODS_BRAND_T/1476851710",
+            "src_fl_sz": 1528,
+            "tgt_fl_sz": 1228,
+            "fl_sz_vrnc_pct": 0,
+            "bytes_copied": 34895,
+            "elapsed_time_in_mins": "3"
+        },
+        {
+            "btch_id": 5,
+            "subj_area": "CUSTOMER",
+            "src_db_tbl_n": "DB_CUSTBASE.ODS_BRAND_EMAIL_T",
+            "tgt_db_tbl_n": "DB_CUSTBASE_PRODREFRESH.ODS_BRAND_T",
+            "master_job_n": "E2E-DEV_Refresh",
+            "bdsync_dt": "2017-05-06",
+            "run_stat": "SUCCESS",
+            "validation_stat": "IN SYNC",
+            "strt_tmsp": "2017-05-01 18:09:55",
+            "end_tmsp": "2017-05-01 18:11:26",
+            "tgt_tbl_path": "hdfs://sfdmgct/bde2e/cust/custbase/Customer/MDS/ODS_BRAND_T/1476851710",
+            "src_fl_sz": 1528,
+            "tgt_fl_sz": 1228,
+            "fl_sz_vrnc_pct": 0,
+            "bytes_copied": 348956,
+            "elapsed_time_in_mins": "4"
+        }
+    ],
+    "links": [
+        {
+            "rel": "self",
+            "href": "http://10.105.70.140:9090/server/customer360_db/bdsync_exec_hist/views/bdsync_exec_hist"
+        }
+    ]
+}
