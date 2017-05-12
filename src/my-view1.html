@@ -23,6 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
                   font-family: Roboto, sans-serif;
                   height: auto;
+                  margin-top: 15px;
                   --divider-color: rgba(0, 0, 0, var(--dark-divider-opacity));
 
                   --vaadin-grid-cell: {
@@ -30,7 +31,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                    };
 
                   --vaadin-grid-header-cell: {
-                       height: 64px;
+                       height: 95px;
                        color: rgba(0, 0, 0, var(--dark-secondary-opacity));
                        font-size: 30px;
                        background-color: aqua;
@@ -73,6 +74,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           vaadin-grid vaadin-grid-sorter::shadow div#indicators div#order {
               font-size: large;
               color: red;
+          }
+
+          vaadin-grid#statusGrid input {
+              width: 100%;
+              height: 30px;
+              font-size: small;
+              margin-bottom: 30px;
+              vertical-align: middle;
+              box-sizing: border-box;
           }
 
 
