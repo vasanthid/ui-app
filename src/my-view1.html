@@ -12,125 +12,276 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/vaadin-grid/vaadin-grid.html">
 <link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-column.html">
+<link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-column-group.html">
 <link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-sorter.html">
 <link rel="import" href="../bower_components/vaadin-grid/vaadin-grid-filter.html">
-<link rel="import" href="shared-styles.html">
 
 <dom-module id="my-view1">
   <template>
-    <style include="shared-styles">
-      :host {
-        display: block;
+         <style is="custom-style">
+          vaadin-grid#statusGrid {
 
-        padding: 10px;
-      }
-    </style>
+                  font-family: Roboto, sans-serif;
+                  height: auto;
+                  --divider-color: rgba(0, 0, 0, var(--dark-divider-opacity));
 
-    <!--<div class="card">-->
-      <!--<div class="circle">1</div>-->
-      <!--<h1>View One</h1>-->
-      <!--<p>Ut labores minimum atomorum pro. Laudem tibique ut has.</p>-->
-      <!--<p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.Cu mei vide viris gloriatur, at populo eripuit sit.</p>-->
-    <!--</div>-->
+                  --vaadin-grid-cell: {
+                      padding: 5px;
+                   };
+
+                  --vaadin-grid-header-cell: {
+                       height: 64px;
+                       color: rgba(0, 0, 0, var(--dark-secondary-opacity));
+                       font-size: 30px;
+                       background-color: aqua;
+                   };
+
+                  --vaadin-grid-body-cell: {
+                       height: 48px;
+                       color: rgba(0, 0, 0, var(--dark-primary-opacity));
+                       font-size: medium;
+                   };
+
+                  --vaadin-grid-body-row-hover-cell: {
+                       background-color: var(--paper-grey-200);
+                   };
 
 
-      <template is="dom-bind">
+                  --vaadin-grid-body-row-details-cell: {
+                       text-align: center;
+                  };
+
+          }
+
+          vaadin-grid#statusGrid .cell {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              padding-right: 56px;
+              height: 48px;
+              line-height: 48px;
+              font-size: medium;
+          }
+
+          vaadin-grid#statusGrid .cell:hover {
+              overflow: visible
+          }
+
+          vaadin-grid#statusGrid .failed-row {
+              background-color: red;
+          }
+
+          vaadin-grid vaadin-grid-sorter::shadow div#indicators div#order {
+              font-size: large;
+              color: red;
+          }
+
+
+      </style>
+
           <!-- Fetch an array of users to be shown in the grid -->
           <!--<iron-ajax auto url="https://demo.vaadin.com/demo-data/1.0/people?count=200" handle-as="json" last-response="{{users}}"></iron-ajax>-->
 
-          <iron-ajax auto url="../../test-data/testData.json" handle-as="json" last-response="{{tableData}}"></iron-ajax>
-
-          <!-- to enable multi sorting -->
-          <!--<paper-checkbox checked="{{multiSort}}">Enable Multi-Sorting</paper-checkbox>-->
+          <iron-ajax id="getData"
+                     url="../../test-data/testData.json"
+                     handle-as="json"
+                     on-response="_onGetData"
+                     on-error="_onGetDataError">
+          </iron-ajax>
 
           <!-- The array is set as the <vaadin-grid>'s "items" property -->
-          <vaadin-grid aria-label="Basic Binding Example" items="[[tableData.elements]]" multi-sort="[[multiSort]]">
+          <vaadin-grid id="statusGrid"
+                       items="[[tableData]]"
+                       multi-sort="[[multiSort]]"
+                       on-active-item-changed="_activeItemChanged"
+                       size="200">
 
-              <vaadin-grid-column  flex-grow="0">
-                  <template class="header">#</template>
-                  <template>[[index]]</template>
-              </vaadin-grid-column>
-
-              <vaadin-grid-column flex-grow="1">
-                  <template class="header">
-                      <vaadin-grid-sorter path="btch_id">btch_id</vaadin-grid-sorter>
-                      <vaadin-grid-filter aria-label="btch_id" path="btch_id" value="[[_filterBtchId]]">
-                          <input placeholder="Batch Id" value="{{_filterBtchId::input}}" focus-target>
-                      </vaadin-grid-filter>
-                  </template>
-                  <template>[[item.btch_id]]</template>
-              </vaadin-grid-column>
+              <template class="row-details">
+                  <div class="details-cell">
+                      <h1>You clicked: [[item.btch_id]] ****  [[item.subj_area]] **** [[item.src_db_tbl_n]] </h1>
+                  </div>
+              </template>
 
 
-              <vaadin-grid-column flex-grow="1">
-                  <template class="header">
-                      <vaadin-grid-sorter path="subj_area">subj_area</vaadin-grid-sorter>
-                      <vaadin-grid-filter aria-label="subj_area" path="subj_area" value="[[_filterSubjArea]]">
-                          <input placeholder="Subject Area" value="{{_filterSubjArea::input}}" focus-target>
-                      </vaadin-grid-filter>
-                  </template>
-                  <template>[[item.subj_area]]</template>
-              </vaadin-grid-column>
+              <vaadin-grid-column-group>
+                      <!--<template class="header">-->
+                          <!--<div class="header-content">-->
+                              <!--<b>1-200 of [[tableData.elements.length]]</b>-->
+                          <!--</div>-->
+                      <!--</template>-->
+                      <vaadin-grid-column  flex-grow="1" resizable>
+                          <template class="header">#</template>
+                          <template>
+                              <div class="cell" class$="{{_isFailed(item.run_stat)}}">
+                                 [[index]]
+                              </div>
+                          </template>
+                      </vaadin-grid-column>
 
-              <vaadin-grid-column flex-grow="1">
-                  <template class="header">
-                      <vaadin-grid-sorter path="src_db_tbl_n">src_db_tbl_n</vaadin-grid-sorter>
-                      <vaadin-grid-filter aria-label="src_db_tbl_n" path="src_db_tbl_n" value="[[_filterSrcDbTbl]]">
-                          <input placeholder="Source Table" value="{{_filterSrcDbTbl::input}}" focus-target>
-                      </vaadin-grid-filter>
-                  </template>
-                  <template>[[item.src_db_tbl_n]]</template>
-              </vaadin-grid-column>
+                      <vaadin-grid-column flex-grow="1" resizable>
+                          <template class="header">
+                              <vaadin-grid-sorter path="btch_id">
+                                  <div class="cell">btch_id</div>
+                              </vaadin-grid-sorter>
+                              <vaadin-grid-filter aria-label="btch_id" path="btch_id" value="[[_filterBtchId]]">
+                                  <input placeholder="Batch Id" value="{{_filterBtchId::input}}" focus-target>
+                              </vaadin-grid-filter>
+                          </template>
+                          <template>
+                              <div class="cell" class$="{{_isFailed(item.run_stat)}}">
+                                 [[item.btch_id]]
+                              </div>
+                          </template>
+                      </vaadin-grid-column>
 
-              <vaadin-grid-column flex-grow="1">
-                  <template class="header">
-                      <vaadin-grid-sorter path="tgt_db_tbl_n">tgt_db_tbl_n</vaadin-grid-sorter>
-                      <vaadin-grid-filter aria-label="tgt_db_tbl_n" path="tgt_db_tbl_n" value="[[_filterTargetDbTbl]]">
-                          <input placeholder="Target Table" value="{{_filterTargetDbTbl::input}}" focus-target>
-                      </vaadin-grid-filter>
-                  </template>
-                  <template>[[item.tgt_db_tbl_n]]</template>
-              </vaadin-grid-column>
 
-              <vaadin-grid-column flex-grow="1">
-                  <template class="header">
-                      <vaadin-grid-sorter path="master_job_n">master_job_n</vaadin-grid-sorter>
-                      <vaadin-grid-filter aria-label="master_job_n" path="master_job_n" value="[[_filterMasterJob]]">
-                          <input placeholder="Master Job" value="{{_filterMasterJob::input}}" focus-target>
-                      </vaadin-grid-filter>
-                  </template>
-                  <template>[[item.master_job_n]]</template>
-              </vaadin-grid-column>
+                      <vaadin-grid-column flex-grow="1" resizable>
+                          <template class="header">
+                              <vaadin-grid-sorter path="subj_area">
+                                  <div class="cell">subj_area</div>
+                              </vaadin-grid-sorter>
+                              <vaadin-grid-filter aria-label="subj_area" path="subj_area" value="[[_filterSubjArea]]">
+                                  <input placeholder="Subject Area" value="{{_filterSubjArea::input}}" focus-target>
+                              </vaadin-grid-filter>
+                          </template>
+                          <template>
+                              <div class="cell" class$="{{_isFailed(item.run_stat)}}">
+                                   [[item.subj_area]]
+                              </div>
+                          </template>
+                      </vaadin-grid-column>
 
-              <vaadin-grid-column flex-grow="1">
-                  <template class="header">
-                      <vaadin-grid-sorter path="bdsync_dt">bdsync_dt</vaadin-grid-sorter>
-                      <vaadin-grid-filter aria-label="bdsync_dt" path="bdsync_dt" value="[[_filterBDSyncDate]]">
-                          <input placeholder="BD Sync Date" value="{{_filterBDSyncDate::input}}" focus-target>
-                      </vaadin-grid-filter>
-                  </template>
-                  <template>[[item.bdsync_dt]]</template>
-              </vaadin-grid-column>
+                      <vaadin-grid-column flex-grow="1" resizable>
+                          <template class="header">
+                              <vaadin-grid-sorter path="src_db_tbl_n">
+                                  <div class="cell">src_db_tbl_n</div>
+                              </vaadin-grid-sorter>
+                              <vaadin-grid-filter aria-label="src_db_tbl_n" path="src_db_tbl_n" value="[[_filterSrcDbTbl]]">
+                                  <input placeholder="Source Table" value="{{_filterSrcDbTbl::input}}" focus-target>
+                              </vaadin-grid-filter>
+                          </template>
+                          <template>
+                              <div class="cell" class$="{{_isFailed(item.run_stat)}}">
+                                  [[item.src_db_tbl_n]]
+                              </div>
+                          </template>
+                      </vaadin-grid-column>
 
-              <vaadin-grid-column flex-grow="1">
-                  <template class="header">
-                      <vaadin-grid-sorter path="run_stat">run_stat</vaadin-grid-sorter>
-                      <vaadin-grid-filter aria-label="run_stat" path="run_stat" value="[[_filterRunStat]]">
-                          <input placeholder="Run Status" value="{{_filterRunStat::input}}" focus-target>
-                      </vaadin-grid-filter>
-                  </template>
-                  <template>[[item.run_stat]]</template>
-              </vaadin-grid-column>
+                      <vaadin-grid-column flex-grow="1" resizable>
+                          <template class="header">
+                              <vaadin-grid-sorter path="tgt_db_tbl_n">
+                                  <div class="cell">tgt_db_tbl_n</div>
+                              </vaadin-grid-sorter>
+                              <vaadin-grid-filter aria-label="tgt_db_tbl_n" path="tgt_db_tbl_n" value="[[_filterTargetDbTbl]]">
+                                  <input placeholder="Target Table" value="{{_filterTargetDbTbl::input}}" focus-target>
+                              </vaadin-grid-filter>
+                          </template>
+                          <template>
+                              <div class="cell" class$="{{_isFailed(item.run_stat)}}">
+                                  [[item.tgt_db_tbl_n]]
+                              </div>
+                          </template>
+                      </vaadin-grid-column>
+
+                      <vaadin-grid-column flex-grow="1" resizable>
+                          <template class="header">
+                              <vaadin-grid-sorter path="master_job_n">
+                                  <div class="cell">master_job_n</div>
+                              </vaadin-grid-sorter>
+                              <vaadin-grid-filter aria-label="master_job_n" path="master_job_n" value="[[_filterMasterJob]]">
+                                  <input placeholder="Master Job" value="{{_filterMasterJob::input}}" focus-target>
+                              </vaadin-grid-filter>
+                          </template>
+                          <template>
+                              <div class="cell" class$="{{_isFailed(item.run_stat)}}">
+                                 [[item.master_job_n]]
+                              </div>
+                          </template>
+                      </vaadin-grid-column>
+
+                      <vaadin-grid-column flex-grow="1" resizable>
+                          <template class="header">
+                              <vaadin-grid-sorter path="bdsync_dt" direction="desc">
+                                  <div class="cell">bdsync_dt</div>
+                              </vaadin-grid-sorter>
+                              <vaadin-grid-filter aria-label="bdsync_dt" path="bdsync_dt" value="[[_filterBDSyncDate]]">
+                                  <input placeholder="BD Sync Date" value="{{_filterBDSyncDate::input}}" focus-target>
+                              </vaadin-grid-filter>
+                          </template>
+                          <template>
+                              <div class="cell" class$="{{_isFailed(item.run_stat)}}">
+                                  [[item.bdsync_dt]]
+                              </div>
+                          </template>
+                      </vaadin-grid-column>
+
+                      <vaadin-grid-column flex-grow="1" resizable>
+                          <template class="header">
+                              <vaadin-grid-sorter path="run_stat"  direction="asc">
+                                  <div class="cell">
+                                      run_stat
+                                  </div>
+                              </vaadin-grid-sorter>
+                              <vaadin-grid-filter aria-label="run_stat" path="run_stat" value="[[_filterRunStat]]">
+                                  <input placeholder="Run Status" value="{{_filterRunStat::input}}" focus-target>
+                              </vaadin-grid-filter>
+                          </template>
+                          <template>
+                              <div class="cell "
+                                   class$="{{_isFailed(item.run_stat)}}"
+                                   on-tap="_onStatusClick">
+                                  [[item.run_stat]]
+                              </div>
+                          </template>
+                      </vaadin-grid-column>
+              </vaadin-grid-column-group>
 
           </vaadin-grid>
-      </template>
-
 
   </template>
 
   <script>
     Polymer({
-      is: 'my-view1'
+      is: 'my-view1',
+      properties: {
+          tableData: Array,
+
+          multiSort: {
+              type: Boolean,
+              value: true
+          }
+      },
+      ready: function() {
+          this.$.getData.generateRequest();
+      },
+      _onGetData: function(e) {
+          var responseObj = e.detail.__data__.response;
+          this.tableData = responseObj.elements;
+      },
+      _onGetDataError: function(e) {
+         alert('Error occurred while fetching data.');
+      },
+      _onStatusClick: function(e){
+         alert('you clicked: ' +  e.model.item.btch_id + '***' +   e.model.item.subj_area + '***' + e.model.item.src_db_tbl_n + '***' + e.model.item.tgt_db_tbl_n);
+      },
+      _isFailed: function(status) {
+        if (status == 'FAILURE') {
+            return 'cell failed-row';
+        } else {
+            return 'cell';
+        }
+      },
+      _activeItemChanged: function() {
+          this._clickedItem = this.$.statusGrid.activeItem ? this.$.statusGrid.activeItem : this._clickedItem;
+
+          if ((typeof this.$.statusGrid.expandedItems !== 'undefined')) {
+                  if (this.$.statusGrid.expandedItems.indexOf(this._clickedItem) > -1) {
+                      this.$.statusGrid.collapseItem(this._clickedItem);
+                  } else {
+                      this.$.statusGrid.expandItem(this._clickedItem);
+                  }
+          }
+
+      }
     });
   </script>
 </dom-module>
