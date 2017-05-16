@@ -24,7 +24,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     vaadin-grid#statusGrid {
 
         font-family: Roboto, sans-serif;
-        height: 700px;
+        height: 820px;
         margin: 15px;
         width: 1290px;
         --divider-color: rgba(0, 0, 0, var(--dark-divider-opacity));
@@ -36,7 +36,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     --vaadin-grid-header-cell: {
          height: 95px;
          color: rgba(0, 0, 0, var(--dark-secondary-opacity));
-         font-size: 30px;
+         font-size: 20px;
          background-color: aqua;
      };
 
@@ -88,7 +88,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         box-sizing: border-box;
     }
 
-
+    vaadin-grid#statusGrid .header-content {
+        display: flex;
+        padding: 16px;
+        justify-content: space-between;
+        border-bottom: 2px dashed red;
+    }
 
 
 </style>
@@ -103,19 +108,32 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
            on-error="_onGetDataError">
 </iron-ajax>
 
+
+
+
 <!-- The array is set as the <vaadin-grid>'s "items" property -->
 <vaadin-grid id="statusGrid"
              multi-sort="[[multiSort]]"
              items="[[tableData]]"
              >
 
-
     <vaadin-grid-column-group>
-        <!--<template class="header">-->
-        <!--<div class="header-content">-->
-        <!--<b>1-200 of [[tableData.elements.length]]</b>-->
-        <!--</div>-->
-        <!--</template>-->
+        <template class="header">
+            <div class="header-content">
+                    <div>
+                            <span>Total:</span> <span style="font-size: xx-large;color: blue;">[[totalCount]]</span>&nbsp;&nbsp;
+                            <span>Success:</span> <span style="font-size: xx-large;color: green;">[[successCount]]</span>&nbsp;&nbsp;
+                            <span>Fail:</span> <span style="font-size: xx-large;color: red;">[[failCount]]</span>
+                    </div>
+
+
+                    <div>
+                        Last Updated: [[refreshTime]]
+                    </div>
+            </div>
+        </template>
+
+
         <vaadin-grid-column width="60px" flex-grow="0">
             <template class="header">#</template>
             <template>
@@ -278,6 +296,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             var responseObj = e.detail.__data__.response;
            // this.set('tableData', _.sortByOrder(responseObj.elements, ['bdsync_dt', 'run_stat'], ['desc', 'asc']));
             this.set('tableData', responseObj.elements);
+            var options = {
+                day: '2-digit',
+                month: '2-digit',
+                year: '2-digit',
+                hour12: true,
+                hour: '2-digit',
+                minute: '2-digit',
+                timeZoneName: 'short'
+            };
+
+            this.refreshTime = new Intl.DateTimeFormat('en-US', options).format(Date.now());
+
+
+            this.totalCount = this.tableData.length;
+            var failedRecsArray = _.filter( this.tableData, { 'run_stat': 'FAILURE'});
+            this.failCount = failedRecsArray.length;
+            var successRecsArray = _.filter( this.tableData, { 'run_stat': 'SUCCESS'});
+            this.successCount = successRecsArray.length;
+
+
         },
         _onGetDataError: function(e) {
             alert('Error occurred while fetching data.');
