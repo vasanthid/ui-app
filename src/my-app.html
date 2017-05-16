@@ -33,8 +33,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       app-header {
-        color: #fff;
-        background-color: var(--app-primary-color);
+        color: white;
+        background-color: green;
       }
       app-header paper-icon-button {
         --paper-icon-button-ink-color: white;
@@ -56,6 +56,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         color: black;
         font-weight: bold;
       }
+
+      .main-title {
+          font-size: xx-large;
+      }
     </style>
 
     <app-location route="{{route}}"></app-location>
@@ -67,12 +71,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
     <app-drawer-layout fullbleed>
       <!-- Drawer content -->
-      <app-drawer id="drawer">
-        <app-toolbar>Menu</app-toolbar>
-        <iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">
-          <a name="view1" href="/view1">Status</a>
-        </iron-selector>
-      </app-drawer>
+      <!--<app-drawer id="drawer">-->
+        <!--<app-toolbar>Menu</app-toolbar>-->
+        <!--<iron-selector selected="[[page]]" attr-for-selected="name" class="drawer-list" role="navigation">-->
+          <!--<a name="view1" href="/view1">Status</a>-->
+        <!--</iron-selector>-->
+      <!--</app-drawer>-->
 
       <!-- Main content -->
       <app-header-layout has-scrolling-region>
@@ -80,7 +84,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <app-header condenses reveals effects="waterfall">
           <app-toolbar>
             <paper-icon-button icon="my-icons:menu" drawer-toggle></paper-icon-button>
-            <div main-title>Status Information</div>
+            <div class="main-title">DataSync Status</div>
           </app-toolbar>
         </app-header>
 
@@ -117,9 +121,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       _routePageChanged: function(page) {
         this.page = page || 'view1';
 
-        if (!this.$.drawer.persistent) {
-          this.$.drawer.close();
-        }
+//        if (!this.$.drawer.persistent) {
+//          this.$.drawer.close();
+//        }
       },
 
       _pageChanged: function(page) {
