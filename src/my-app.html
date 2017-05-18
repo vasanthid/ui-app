@@ -93,7 +93,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             attr-for-selected="name"
             fallback-selection="view404"
             role="main">
-          <my-view1 name="view1"></my-view1>
+          <my-view1 name="dataSyncStatus"></my-view1>
           <!--<my-view2 name="view2"></my-view2>-->
           <!--<my-view3 name="view3"></my-view3>-->
           <my-view404 name="view404"></my-view404>
@@ -110,7 +110,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         page: {
           type: String,
           reflectToAttribute: true,
-          observer: '_pageChanged',
+          observer: '_pageChanged'
         },
       },
 
@@ -119,7 +119,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       ],
 
       _routePageChanged: function(page) {
-        this.page = page || 'view1';
+        this.page = page || 'dataSyncStatus';
 
 //        if (!this.$.drawer.persistent) {
 //          this.$.drawer.close();
@@ -128,7 +128,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       _pageChanged: function(page) {
         // Load page import on demand. Show 404 page if fails
-        var resolvedPageUrl = this.resolveUrl('my-' + page + '.html');
+        var resolvedPageUrl = this.resolveUrl('my-view1.html');
         this.importHref(resolvedPageUrl, null, this._showPage404, true);
       },
 
