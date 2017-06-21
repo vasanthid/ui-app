@@ -120,11 +120,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <vaadin-grid-column-group>
         <template class="header">
             <div class="header-content">
-                    <div>
+                    <!-- <div>
                             <span>Total:</span> <span style="font-size: xx-large;color: blue;">[[totalCount]]</span>&nbsp;&nbsp;
                             <span>Success:</span> <span style="font-size: xx-large;color: green;">[[successCount]]</span>&nbsp;&nbsp;
                             <span>Fail:</span> <span style="font-size: xx-large;color: red;">[[failCount]]</span>
-                    </div>
+                    </div> -->
 
 
                     <div>
@@ -171,18 +171,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             </template>
         </vaadin-grid-column>
 
-        <vaadin-grid-column width="200px" flex-grow="0">
+        <vaadin-grid-column width="300px" flex-grow="0">
             <template class="header">
-                <vaadin-grid-sorter path="bdsync_dt" direction="desc">
+                <vaadin-grid-sorter path="strt_tmsp" direction="desc">
                     <div class="cell">Ingestion Date</div>
                 </vaadin-grid-sorter>
-                <vaadin-grid-filter aria-label="bdsync_dt" path="bdsync_dt" value="[[_filterBDSyncDate]]">
-                    <input placeholder="Ingestion Date" value="{{_filterBDSyncDate::input}}" focus-target>
+                <vaadin-grid-filter aria-label="strt_tmsp" path="strt_tmsp" value="[[_filterStartTimeStamp]]">
+                    <input placeholder="Ingestion Date" value="{{_filterStartTimeStamp::input}}" focus-target>
                 </vaadin-grid-filter>
             </template>
             <template>
                 <div class="cell" class$="{{_isFailedRow(item.run_stat)}}">
-                [[item.bdsync_dt]]
+                [[item.strt_tmsp]]
                 </div>
             </template>
         </vaadin-grid-column>
@@ -306,7 +306,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 timeZoneName: 'short'
             };
 
-            this.refreshTime = new Intl.DateTimeFormat('en-US', options).format(Date.now());
+            //this.refreshTime = new Intl.DateTimeFormat('en-US', options).format(Date.now());
+            this.refreshTime = new Date().toLocaleString();
 
 
             this.totalCount = this.tableData.length;
